@@ -4,8 +4,8 @@
 
 The idea is to bind a key for any given application that will:
 
-- launch the application, if it's not already running
-- focus the application's window, if it is running
+- Launch the application, if it's not already running
+- Raise the application's window, if it is running
 
 Pressing the key again will cycle to the application's next window, if there's more than one.
 
@@ -60,25 +60,6 @@ Take Firefox, for example. If you already have a Firefox window open and you
 run `firefox https://github.com/`, Firefox won't start a new instance. What it
 does is open a new tab in the existing window and browse to the URL you passed.
 
-## Requirements
-
-Extremly basic, relies on `bash`, `wmctrl`, `xprop`, `xdotool` and `pgrep`. All probably on any device with X11.
-
-[Window Managers supported by **wmctrl**](http://tripie.sweb.cz/utils/wmctrl/#about):
-`blackbox`,
-`icewm`,
-`kwin` (KDE),
-`metacity` (GNOME),
-`openbox`,
-`sawfish`,
-`fvwm`,
-`waimea`,
-`pekwm`,
-`enlightenment`,
-`xfce`,
-`fluxbox`,
-`matchbox`,
-`window maker`
 
 ## XBindKeys
 
@@ -96,4 +77,9 @@ Example `.xbindkeysrc`:
   control + alt + t
 ```
 
-Based on [jumpapp](https://github.com/mkropat/jumpapp)
+
+## Requirements
+
+Extremly basic, relies on `bash`, `wmctrl`, `xprop`, `xdotool` and `pgrep`. Already in most devices with X11.
+
+This script was based on [jumpapp](https://github.com/mkropat/jumpapp)
