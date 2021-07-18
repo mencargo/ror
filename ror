@@ -8,16 +8,16 @@ Jump to (focus) the first open window for an application, if it's running.
 Otherwise, launch COMMAND (with opitonal ARGs) to start the application.
 
 Options:
-  -r -- cycle through windows in reverse order
+  -L -- list matching windows for COMMAND and quit
   -f -- force COMMAND to launch if process found but no windows found
   -m -- if a single window is already open and in focus - minimize it
   -n -- do not fork into background when launching COMMAND
   -p -- always launch COMMAND when ARGs passed
         (see Argument Passthrough in man page)
-  -L -- list matching windows for COMMAND and quit
   -t NAME -- process window has to have NAME as the window title
   -c NAME -- find window using NAME as WM_CLASS (instead of COMMAND)
   -i NAME -- find process using NAME as the command name (instead of COMMAND)
+  -r -- cycle through windows in reverse order
   -w -- only find the applications in the current workspace
   -R -- bring the application to the current workspace when raising
         (the default behaviour is to switch to the workspace that the
@@ -31,19 +31,19 @@ main() {
     local OPTIND
     while getopts c:fhi:Lmnprt:wRC opt; do
         case "$opt" in
-            c) classid="$OPTARG" ;;
-            f) force=1 ;;
-            h) show_usage; exit 0 ;;
-            i) cmdid="$OPTARG" ;;
             L) list=1 ;;
+            f) force=1 ;;
             m) focusOrMinimize=1 ;;
             n) fork='' ;;
             p) passthrough=1; force=1 ;; # passthrough implies force
-            r) in_reverse=1 ;;
             t) matching_title="$OPTARG"; force=1 ;;
+            c) classid="$OPTARG" ;;
+            i) cmdid="$OPTARG" ;;
+            r) in_reverse=1 ;;
             w) workspace_filter="$(get_active_workspace)"; force=1 ;;
             R) keep_workspace=1 ;;
             C) mouse_center=1 ;;
+            h) show_usage; exit 0 ;;
         esac
     done
     shift $(( OPTIND - 1 ))
@@ -57,7 +57,7 @@ main() {
     shift
 
     check_for_prerequisites &&
-    jumpapp "$@"
+    ror "$@"
 }
 
 check_for_prerequisites() {
@@ -70,7 +70,7 @@ check_for_prerequisites() {
     fi
 }
 
-jumpapp() {
+ror() {
     if [[ -z "$cmdid" ]]; then
         local cmdid=$(basename "$cmd")
     fi
@@ -346,7 +346,7 @@ list_pids_for_command() {
 }
 
 list_pids_for_command_with_pgrep() {
-    pgrep -f "^(/.*/)?$1\b"
+    pgrep "$1" || pgrep -f "$1" # fix: let user specify!
 }
 
 list_pids_for_command_from_procfs() {

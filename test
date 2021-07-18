@@ -432,7 +432,7 @@ it_calls_activate_window_when_called_with_-m_but_the_window_is_not_active() {
 
 ##### Test Doubles #####
 
-source ./jumpapp # load app now, so we can override it
+source ./ror # load app now, so we can override it
 
 fork_command() {
     fork_command_called=1
