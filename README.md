@@ -62,7 +62,7 @@ does is open a new tab in the existing window and browse to the URL you passed.
 
 ## Requirements
 
-Extremly basic, relies on `bash`, `wmctrl`, `xprop` and `pgrep`.
+Extremly basic, relies on `bash`, `wmctrl`, `xprop`, `xdotool` and `pgrep`. All probably on any device with X11.
 
 [Window Managers supported by **wmctrl**](http://tripie.sweb.cz/utils/wmctrl/#about):
 `blackbox`,
