@@ -1,6 +1,4 @@
-# ror
-
-*run-or-raise application switcher for X11*
+# ror *`run-or-raise` application switcher for X11*
 
 The idea is to bind a key for any given application that will:
 
