@@ -2,7 +2,7 @@
 
 The fastest way for a keyboard-junkie to switch between applications in a modern desktop environment.
 
-Bind a key to launch any given application if it's not already running, or raise the application's window if it is.
+Bind a key to launch any given application if it's not already running or raise the application's window if it is.
 
 Pressing the key again will cycle to the application's next window, if there's more than one.
 
