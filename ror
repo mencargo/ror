@@ -10,7 +10,6 @@ Otherwise, launch COMMAND (with opitonal ARGs) to start the application.
 Options:
   -L -- list matching windows for COMMAND and quit
   -f -- force COMMAND to launch if process found but no windows found
-  -m -- if a single window is already open and in focus - minimize it
   -n -- do not fork into background when launching COMMAND
   -p -- always launch COMMAND when ARGs passed
         (see Argument Passthrough in man page)
@@ -18,11 +17,12 @@ Options:
   -c NAME -- find window using NAME as WM_CLASS (instead of COMMAND)
   -i NAME -- find process using NAME as the command name (instead of COMMAND)
   -r -- cycle through windows in reverse order
+  -m -- if a single window is already open and in focus - minimize it
+  -C -- center cursor when raising application
   -w -- only find the applications in the current workspace
   -R -- bring the application to the current workspace when raising
         (the default behaviour is to switch to the workspace that the
-        application is currently on)
-  -C -- center cursor when raising application"
+        application is currently on)"
 }
 
 main() {
@@ -33,16 +33,16 @@ main() {
         case "$opt" in
             L) list=1 ;;
             f) force=1 ;;
-            m) focusOrMinimize=1 ;;
             n) fork='' ;;
             p) passthrough=1; force=1 ;; # passthrough implies force
             t) matching_title="$OPTARG"; force=1 ;;
             c) classid="$OPTARG" ;;
             i) cmdid="$OPTARG" ;;
             r) in_reverse=1 ;;
+            m) focusOrMinimize=1 ;;
+            C) mouse_center=1 ;;
             w) workspace_filter="$(get_active_workspace)"; force=1 ;;
             R) keep_workspace=1 ;;
-            C) mouse_center=1 ;;
             h) show_usage; exit 0 ;;
         esac
     done
