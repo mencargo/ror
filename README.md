@@ -1,13 +1,10 @@
 # ror *`run-or-raise` application switcher for X11*
 
-The idea is to bind a key for any given application that will:
+The fastest way for a keyboard-junkie to switch between applications in a modern desktop environment.
 
-- Launch the application, if it's not already running
-- Raise the application's window, if it is running
+Bind a key to launch any given application if it's not already running, or raise the application's window if it is.
 
 Pressing the key again will cycle to the application's next window, if there's more than one.
-
-The fastest way for a keyboard-junkie to switch between applications in a modern desktop environment.
 
 All you have to do is configure the key bindings you want to use.
 
