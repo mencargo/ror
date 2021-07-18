@@ -82,7 +82,7 @@ Extremly basic, relies on `bash`, `wmctrl`, `xprop`, `xdotool` and `pgrep`. All 
 
 ## XBindKeys
 
-If your desktop environment doesn't offer a way to bind keys to commands — or if it's too limited — take a look at [XBindKeys](http://www.nongnu.org/xbindkeys/xbindkeys.html).
+If your desktop environment doesn't offer a way to bind keys to commands (or if it's too limited) take a look at [XBindKeys](http://www.nongnu.org/xbindkeys/xbindkeys.html).
 
 Example `.xbindkeysrc`:
 ```
