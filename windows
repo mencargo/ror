@@ -38,9 +38,9 @@ print_windows() {
     exec 3>"$tmpfile"
     exec 4<"$tmpfile"
     while read -r windowid hostname pid workspace class title; do
-        echo "$hostname,$pid,$class,$(tr -d '\0' </proc/"$pid"/comm),$(tr -d '\0' </proc/"$pid"/cmdline)" >&3
+        echo "$hostname,$pid,$class,$(tr -d '\0' </proc/"$pid"/comm),$(readlink /proc/"$pid"/exe),$(tr -d '\0' </proc/"$pid"/cmdline)" >&3
     done
-    column -t -s, -N HOST,PID,WM_CLASS,COMMAND,COMMAND_LINE <&4
+    column -t -s, -N HOST,PID,WM_CLASS,COMMAND,LINK,COMMAND_LINE <&4
 }
 
 list_windows() {
