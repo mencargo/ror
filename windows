@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-where_normal_window() {
+only_windows() {
     local windowid rest
     while read -r windowid rest; do
         case "$(get_window_types "$windowid")" in \
@@ -34,9 +34,14 @@ get_window_types() {
 
 print_windows() {
     local windowid hostname pid workspace class title
+    tmpfile=$(mktemp)
+    exec 3>"$tmpfile"
+    exec 4<"$tmpfile"
+    echo "HOST,PID,WM_CLASS,COMMAND,COMMAND_LINE" >&3
     while read -r windowid hostname pid workspace class title; do
-        printf '%s\t%s\t%s\n' $hostname $pid $class
+        echo "$hostname,$pid,$class,$(tr -d '\0' </proc/"$pid"/comm),$(tr -d '\0' </proc/"$pid"/cmdline)" >&3
     done
+    column -t -s, <&4
 }
 
 list_windows() {
@@ -46,6 +51,4 @@ list_windows() {
     done < <(wmctrl -lpx)
 }
 
-printf 'Current windows:\n'
-printf 'host\tpid\twm_class\n'
-list_windows | where_normal_window | print_windows
+list_windows | only_windows | print_windows
