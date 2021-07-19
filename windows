@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+where_normal_window() {
+    local windowid rest
+    while read -r windowid rest; do
+        case "$(get_window_types "$windowid")" in \
+            *_NET_WM_WINDOW_TYPE_DESKTOP* |       \
+            *_NET_WM_WINDOW_TYPE_DOCK* |          \
+            *_NET_WM_WINDOW_TYPE_TOOLBAR* |       \
+            *_NET_WM_WINDOW_TYPE_MENU* |          \
+            *_NET_WM_WINDOW_TYPE_UTILITY* |       \
+            *_NET_WM_WINDOW_TYPE_SPLASH* |        \
+            *_NET_WM_WINDOW_TYPE_DROPDOWN_MENU* | \
+            *_NET_WM_WINDOW_TYPE_POPUP_MENU* |    \
+            *_NET_WM_WINDOW_TYPE_TOOLTIP* |       \
+            *_NET_WM_WINDOW_TYPE_NOTIFICATION* |  \
+            *_NET_WM_WINDOW_TYPE_COMBO* |         \
+            *_NET_WM_WINDOW_TYPE_DND*)
+                ;;
+            *)
+                printf '%s\n' "$windowid $rest"
+                ;;
+        esac
+    done
+}
+
+get_window_types() {
+    local name window_types
+    read -r name window_types < <(xprop -id "$1" ' $0+\n' _NET_WM_WINDOW_TYPE)
+    if [[ "$window_types" != 'not found.' ]]; then
+        printf '%s\n' "$window_types"
+    fi
+}
+
+print_windows() {
+    local windowid hostname pid workspace class title
+    while read -r windowid hostname pid workspace class title; do
+        printf '%s\t%s\t%s\n' $hostname $pid $class
+    done
+}
+
+list_windows() {
+    local windowid workspace pid wm_class hostname title
+    while read -r windowid workspace pid wm_class hostname title; do
+        printf '%s\n' "$windowid $hostname $pid $workspace ${wm_class##*.} $title"
+    done < <(wmctrl -lpx)
+}
+
+printf 'Current windows:\n'
+printf 'host\tpid\twm_class\n'
+list_windows | where_normal_window | print_windows
