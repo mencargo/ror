@@ -37,11 +37,10 @@ print_windows() {
     tmpfile=$(mktemp)
     exec 3>"$tmpfile"
     exec 4<"$tmpfile"
-    echo "HOST,PID,WM_CLASS,COMMAND,COMMAND_LINE" >&3
     while read -r windowid hostname pid workspace class title; do
         echo "$hostname,$pid,$class,$(tr -d '\0' </proc/"$pid"/comm),$(tr -d '\0' </proc/"$pid"/cmdline)" >&3
     done
-    column -t -s, <&4
+    column -t -s, -N HOST,PID,WM_CLASS,COMMAND,COMMAND_LINE <&4
 }
 
 list_windows() {
